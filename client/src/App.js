@@ -1,6 +1,5 @@
-import { Component,useState } from 'react';
+import { Component } from 'react';
 import './App.css';
-
 
 import OnePage from './components/One/one';
 import TwoPage from './components/Two/two';
@@ -22,12 +21,23 @@ import Wallet from './assets/wallet.png';
 
 import {Modal,Tabs,Image} from 'antd';
 
+//CToken合约
+import {
+  borrowBalanceStored,
+  exchangeRateCurrent,
+  exchangeRateStored,
+  mint
+} from './utils/CErc20Delegator/chain';
+
 const {TabPane} = Tabs;
+
 
 class App extends Component {
 
   state = { loading: false,storageValue: 0, accounts: null, contract: null,
   showmodalc:false,showmodalp:false,showmodalmarket:false  };
+  
+
 
   handleCancel = () => {
     this.setState({
@@ -68,28 +78,26 @@ class App extends Component {
   };
 
   connectWallet= async()=>{
-    console.log("connect web3");
-    if (typeof window.ethereum !== 'undefined') {
-      console.log('MetaMask is installed!');
-    }else{
-      window.alert('Please install MetaMask first.');
-      return;
-    }
-
-    //链接metamask钱包
-    window.ethereum.request({ method: 'eth_requestAccounts' });
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    const account = accounts[0];
-    console.log(account);
-
-    // if(typeof web3!=='undefined'){
-    //   web3=new Web3(web3.currentProvider);
-    //   console.log("web3");
+    // console.log("connect web3");
+    // if (typeof window.ethereum !== 'undefined') {
+    //   console.log('MetaMask is installed!');
     // }else{
-    //   web3 = new Web3(new Web3.providers.HttpProvider("https://testnet.aurora.dev"));
-    //   console.log("web3 providers");
+    //   window.alert('Please install MetaMask first.');
+    //   return;
     // }
 
+    // //链接metamask钱包
+    // window.ethereum.request({ method: 'eth_requestAccounts' });
+    // const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    // const account = accounts[0];
+    // console.log(account);
+
+    // -------------------------测试CToken接口------------------------
+    // -------------------------测试CToken接口------------------------
+    await borrowBalanceStored();// OK
+    // await exchangeRateCurrent();// fail
+    // await exchangeRateStored();// OK
+    // await mint(0);// fail
     this.setState({ loading: true });//到这里metamask就连接上了，状态为true
   };
 
@@ -107,7 +115,7 @@ class App extends Component {
     return (
       <div>
         <div className="App">
-          <Tabs className="tabs" defaultActiveKey="2" tabBarExtraContent={this.OperationsSlot}>
+          <Tabs className="tabs" defaultActiveKey="1" tabBarExtraContent={this.OperationsSlot}>
             <TabPane className="tabs_c" tab="流动性" key="1">
               <OnePage SetShowModalC={this.showModalC} SetShowModalP={this.showModalP} />
             </TabPane>
@@ -116,6 +124,7 @@ class App extends Component {
             </TabPane>
           </Tabs>
         </div>
+        
         {/* Lock Modal */}
         <Modal
           className='modal_c'
