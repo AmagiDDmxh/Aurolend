@@ -91,7 +91,7 @@ contract PriceOracleProxy is PriceOracle, Exponential, UniswapConfig {
     constructor(
         address admin_,
         uint anchorPeriod_
-    ) public {
+    ) {
         admin = admin_;
         anchorPeriod = anchorPeriod_;
     }

@@ -86,7 +86,7 @@ contract Comptroller is ComptrollerV7Storage, ComptrollerInterface, ComptrollerE
     // No collateralFactorMantissa may exceed this value
     uint internal constant collateralFactorMaxMantissa = 0.9e18; // 0.9
 
-    constructor() public {
+    constructor() {
         admin = msg.sender;
     }
 
