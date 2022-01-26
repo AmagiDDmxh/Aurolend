@@ -243,7 +243,7 @@ contract PriceOracleProxy is PriceOracle, Exponential, UniswapConfig {
         // Underflow is a property of the accumulators: https://uniswap.org/audit.html#orgc9b3190
         FixedPoint.uq112x112 memory priceAverage = FixedPoint.uq112x112(uint224((nowCumulativePrice - oldCumulativePrice) / timeElapsed));
         uint rawUniswapPriceMantissa = priceAverage.decode112with18(); // 10 * 10 ** 18 eth / token
-        uint unscaledPriceMantissa = mul(rawUniswapPriceMantissa, 10 ** 6); // 10 * 10 ** 18 * 3000 * 10 ** 6
+        uint unscaledPriceMantissa = mul(rawUniswapPriceMantissa, 10 ** 15); // 10 * 10 ** 18 * 3000 * 10 ** 6
         uint anchorPrice;
 
         // Adjust rawUniswapPrice according to the units of the non-ETH asset
@@ -261,10 +261,14 @@ contract PriceOracleProxy is PriceOracle, Exponential, UniswapConfig {
         anchorPrice = mul(unscaledPriceMantissa, config.baseUnit) / ethBaseUnit / expScale;
 
         // emit AnchorPriceUpdated(symbol, anchorPrice, oldTimestamp, block.timestamp);
-        emit Test(timeElapsed, unscaledPriceMantissa, anchorPrice);
+        emit Test(timeElapsed, unscaledPriceMantissa, anchorPrice, nowCumulativePrice, oldCumulativePrice);
         return anchorPrice;
     }
-    event Test(uint indexed timeElapsed, uint indexed unscaledPriceMantissa, uint indexed anchorPrice);
+    event Test(uint indexed timeElapsed, 
+               uint indexed unscaledPriceMantissa, 
+               uint indexed anchorPrice,
+               uint nowCumulativePrice,
+               uint oldCumulativePrice);
 
     /**
      * @notice Get price whose base token is token1

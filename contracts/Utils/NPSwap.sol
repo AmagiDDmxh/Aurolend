@@ -129,10 +129,16 @@ library NPSwap {
         address factoryPancakeTest = address(0x6725F303b657a9451d8BA641348b6761A6CC7a17);
         bytes32 initalCodeHashPancakeTest = hex'd0d4c4cd0848c93cb4fd1f498d7013ee6bfb25783ea21593d5834f5d250ece66';
 
-        //Quickswap - Polygon
-        address routerQuick = address(0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff);
-        address factoryQuick = address(0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32);
-        bytes32 initalCodeHashQuick = hex'96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
+        // //Quickswap - Polygon
+        // address routerQuick = address(0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff);
+        // address factoryQuick = address(0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32);
+        // bytes32 initalCodeHashQuick = hex'96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
+
+        //Trisolaris - Aurora
+        // todo: initalCodeHashTrisolaris to be updated
+        address routerTrisolaris = address(0x2CB45Edb4517d5947aFdE3BEAbF95A582506858B);
+        address factoryTrisolaris = address(0xc66F594268041dB60507F00703b152492fb176E7);
+        bytes32 initalCodeHashTrisolaris = hex'96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
 
         uint256 chainID = block.chainid;
 
@@ -143,7 +149,8 @@ library NPSwap {
         //BSC Mainnet ,Testnet
         else if(chainID == 97) return(routerPancakeTest, factoryPancakeTest, initalCodeHashPancakeTest);
         //polygon, Mumbai Testnet(testnet of polygon)
-        else if(chainID == 137 || chainID == 80001) return(routerQuick, factoryQuick, initalCodeHashQuick);
+        // else if(chainID == 137 || chainID == 80001) return(routerQuick, factoryQuick, initalCodeHashQuick);
+        else if(chainID == 1313161554) return (routerTrisolaris, factoryTrisolaris, initalCodeHashTrisolaris);
         else revert("Not Supported chainID");
     }
 }
@@ -172,7 +179,7 @@ library FixedPoint {
         //  (x * 1e18) >> 112
         // without risk of overflowing, e.g.:
         //  (x) / 2 ** (112 - lg(1e18))
-        return uint(self._x) / 5192296858534827;
+        return uint(self._x) * 10 ** 18 / 5192296858534827;
     }
 }
 
