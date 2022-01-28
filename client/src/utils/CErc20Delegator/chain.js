@@ -27,7 +27,9 @@ export async function borrowBalanceStored() {
         const cash = ethers.utils.formatEther(balance, { commify: true })
         console.log('此账户借的钱(不计算当前利率累积): ', cash)
       },
-      function (error) {}
+      function (error) {
+        //
+      }
     )
   }
 }
