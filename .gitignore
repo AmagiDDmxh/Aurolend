@@ -32,7 +32,6 @@ package-lock.json
 .env
 .slither.json
 update-contracts.py
-tsconfig.json
 yarn-error.log
 tenderly.yaml
 coverage.json
