@@ -15,15 +15,13 @@ import ModalMarketBorrow from './components/ModalMarketBorrow/modalmarketborrow'
 import ModalMarketWithdraw from './components/ModalMarketWithdraw/modalmarketwithdraw'
 import ModalMarketRepay from './components/ModalMarketRepay/modalmarketrepay'
 
-// @ts-expect-error no .png typing yet
 import Logo from './assets/Logo.png'
-// import Avatar from './assets/avatar.png'
-// import Wallet from './assets/wallet.png'
 
 import { Modal, Tabs, Image } from 'antd'
 
 //CToken合约
 import { borrowBalanceStored, exchangeRateCurrent, exchangeRateStored, mint } from './utils/CErc20Delegator/chain'
+import { HeaderActions } from 'components/HeaderActions'
 
 const { TabPane } = Tabs
 
@@ -102,17 +100,7 @@ class App extends Component {
   OperationsSlot = {
     left: <Image preview={false} className="lc" src={Logo} />,
     right: (
-      <div className="rc">
-        <Image className="avatar" preview={false} src={Avatar} width={30} height={30}></Image>
-        <Image
-          className="wallet"
-          onClick={this.connectWallet}
-          preview={false}
-          src={Wallet}
-          width={30}
-          height={30}
-        ></Image>
-      </div>
+      <HeaderActions />
     ),
   }
 
