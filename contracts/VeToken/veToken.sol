@@ -52,6 +52,7 @@ import "../Governance/Comp.sol";
 import "../Utils/StringHelpers.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 // import "../Frax/Frax.sol";
@@ -160,7 +161,9 @@ contract veToken is ReentrancyGuard{
         controller = msg.sender;
         transfersEnabled = true;
 
-        uint256 _decimals = IERC20Metadata(token_addr).decimals();
+        // todo: debug
+        // uint256 _decimals = IERC20Metadata(token_addr).decimals();
+        uint256 _decimals = 18;
         assert(_decimals <= 255);
         decimals = _decimals;
 
@@ -225,7 +228,7 @@ contract veToken is ReentrancyGuard{
         * @param _t Epoch time to return voting power at
         * @return User voting power
     */
-    function balanceOf(address addr, uint256 _t) public view returns (uint256) {
+    function balanceOf(address addr, uint256 _t) internal view returns (uint256) {
         uint256 _epoch = user_point_epoch[addr];
         if (_epoch == 0) {
             return 0;
@@ -317,7 +320,7 @@ contract veToken is ReentrancyGuard{
         * @dev Adheres to the ERC20 `totalSupply` interface for Aragon compatibility
         * @return Total voting power
     */
-    function totalSupply(uint256 t) public view returns (uint256) {
+    function totalSupply(uint256 t) internal view returns (uint256) {
         uint256 _epoch = epoch;
         Point memory last_point = point_history[_epoch];
         return supply_at(last_point, t);
@@ -682,6 +685,13 @@ contract veToken is ReentrancyGuard{
         require (_locked.amount > 0, "No existing lock found");
         require (_locked.end > block.timestamp, "Cannot add to expired lock. Withdraw");
         _deposit_for(_addr, _value, 0, locked[_addr], DEPOSIT_FOR_TYPE);
+    }
+
+    function getUnlockTime(uint unlock_time, bool isInput) external view returns(uint) {
+        if (isInput) {
+            return unlock_time;
+        }
+        return (unlock_time / WEEK) * WEEK;
     }
 
     /**
