@@ -1,13 +1,8 @@
+import React, { useState } from 'react'
+import './index.css'
 
-import React, { useState } from 'react';
-import './index.css';
-
-function ModalMarketBorrow(){
-    return (
-        <div className=''>
-            
-        </div>
-    );
+function ModalMarketBorrow() {
+  return <div className=""></div>
 }
 
-export default ModalMarketBorrow;
+export default ModalMarketBorrow

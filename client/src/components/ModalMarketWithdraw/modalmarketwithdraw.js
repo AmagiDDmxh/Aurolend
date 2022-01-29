@@ -1,13 +1,8 @@
+import React, { useState } from 'react'
+import './index.css'
 
-import React, { useState } from 'react';
-import './index.css';
-
-function ModalMarketWithdraw(){
-    return (
-        <div className=''>
-            
-        </div>
-    );
+function ModalMarketWithdraw() {
+  return <div className=""></div>
 }
 
-export default ModalMarketWithdraw;
+export default ModalMarketWithdraw

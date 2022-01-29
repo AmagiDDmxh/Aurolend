@@ -1,83 +1,79 @@
-import { Component } from 'react';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
 
-import OnePage from './components/One/one';
-import TwoPage from './components/Two/two';
+import OnePage from './components/One/one'
+import TwoPage from './components/Two/two'
 
-import ModalLock from './components/ModalLock/modallock';
-import ModalWithdraw from './components/ModalWithdraw/modalwithdraw';
+import ModalLock from './components/ModalLock/modallock'
+import ModalWithdraw from './components/ModalWithdraw/modalwithdraw'
 
-import ModalPDeposit from './components/ModalPDeposit/modalpdeposit';
-import ModalPWithdraw from './components/ModalPWithdraw/modalpwithdraw';
+import ModalPDeposit from './components/ModalPDeposit/modalpdeposit'
+import ModalPWithdraw from './components/ModalPWithdraw/modalpwithdraw'
 
-import ModalMarketSupply from './components/ModalMarketSupply/modalmarketsupply';
-import ModalMarketBorrow from './components/ModalMarketBorrow/modalmarketborrow';
-import ModalMarketWithdraw from './components/ModalMarketWithdraw/modalmarketwithdraw';
-import ModalMarketRepay from './components/ModalMarketRepay/modalmarketrepay';
+import ModalMarketSupply from './components/ModalMarketSupply/modalmarketsupply'
+import ModalMarketBorrow from './components/ModalMarketBorrow/modalmarketborrow'
+import ModalMarketWithdraw from './components/ModalMarketWithdraw/modalmarketwithdraw'
+import ModalMarketRepay from './components/ModalMarketRepay/modalmarketrepay'
 
-import Logo from './assets/Logo.png';
-import Avatar from './assets/avatar.png';
-import Wallet from './assets/wallet.png';
+import Logo from './assets/Logo.png'
 
-import {Modal,Tabs,Image} from 'antd';
+import { Modal, Tabs, Image } from 'antd'
 
 //CToken合约
-import {
-  borrowBalanceStored,
-  exchangeRateCurrent,
-  exchangeRateStored,
-  mint
-} from './utils/CErc20Delegator/chain';
+import { borrowBalanceStored, exchangeRateCurrent, exchangeRateStored, mint } from './utils/CErc20Delegator/chain'
+import { HeaderActions } from 'components/HeaderActions'
 
-const {TabPane} = Tabs;
-
+const { TabPane } = Tabs
 
 class App extends Component {
-
-  state = { loading: false,storageValue: 0, accounts: null, contract: null,
-  showmodalc:false,showmodalp:false,showmodalmarket:false  };
-  
-
+  state = {
+    loading: false,
+    storageValue: 0,
+    accounts: null,
+    contract: null,
+    showmodalc: false,
+    showmodalp: false,
+    showmodalmarket: false,
+  }
 
   handleCancel = () => {
     this.setState({
-      showmodalc:false
-    });
-  };
+      showmodalc: false,
+    })
+  }
 
   handleCancelP = () => {
     this.setState({
-      showmodalp:false
-    });
-  };
+      showmodalp: false,
+    })
+  }
 
-  handleCancelMarket=()=>{
+  handleCancelMarket = () => {
     this.setState({
-      showmodalmarket:false
-    });
-  };
+      showmodalmarket: false,
+    })
+  }
 
-  showModalC=()=>{
+  showModalC = () => {
     this.setState({
-      showmodalc:true
-    });
-    console.log(this.state.showmodalc);
-  };
+      showmodalc: true,
+    })
+    console.log(this.state.showmodalc)
+  }
 
-  
-  showModalP=()=>{
+  showModalP = () => {
     this.setState({
-      showmodalp:true
-    });
-  };
+      showmodalp: true,
+    })
+  }
 
-  showModalMarket=()=>{
+  showModalMarket = () => {
     this.setState({
-      showmodalmarket:true
-    });
-  };
+      showmodalmarket: true,
+    })
+  }
 
-  connectWallet= async()=>{
+  connectWallet = async () => {
     // console.log("connect web3");
     // if (typeof window.ethereum !== 'undefined') {
     //   console.log('MetaMask is installed!');
@@ -94,24 +90,21 @@ class App extends Component {
 
     // -------------------------测试CToken接口------------------------
     // -------------------------测试CToken接口------------------------
-    await borrowBalanceStored();// OK
+    await borrowBalanceStored() // OK
     // await exchangeRateCurrent();// fail
     // await exchangeRateStored();// OK
     // await mint(0);// fail
-    this.setState({ loading: true });//到这里metamask就连接上了，状态为true
-  };
+    this.setState({ loading: true }) //到这里metamask就连接上了，状态为true
+  }
 
-  OperationsSlot= {
-    left:<Image preview={false} className="lc"
-    src={Logo}
-    />,
-    right:<div className="rc">
-      <Image className="avatar" preview={false} src={Avatar} width={30} height={30}></Image>
-      <Image className="wallet" onClick={this.connectWallet} preview={false} src={Wallet} width={30} height={30}></Image>
-      </div>
-  };
+  OperationsSlot = {
+    left: <Image preview={false} className="lc" src={Logo} />,
+    right: (
+      <HeaderActions />
+    ),
+  }
 
-  render(){
+  render() {
     return (
       <div>
         <div className="App">
@@ -120,21 +113,21 @@ class App extends Component {
               <OnePage SetShowModalC={this.showModalC} SetShowModalP={this.showModalP} />
             </TabPane>
             <TabPane className="tabs_c" tab="借贷+稳定币" key="2">
-              <TwoPage SetShowModalMarket={this.showModalMarket}/>
+              <TwoPage SetShowModalMarket={this.showModalMarket} />
             </TabPane>
           </Tabs>
         </div>
-        
+
         {/* Lock Modal */}
         <Modal
-          className='modal_c'
+          className="modal_c"
           visible={this.state.showmodalc}
           title="Lock And Vote"
           onCancel={this.handleCancel}
           footer={[]}
         >
           <div>
-            <Tabs className='modalctabnav' defaultActiveKey="1" centered>
+            <Tabs className="modalctabnav" defaultActiveKey="1" centered>
               <TabPane tab="LOCK" key="1">
                 <ModalLock />
               </TabPane>
@@ -147,14 +140,14 @@ class App extends Component {
 
         {/* Provide Modal */}
         <Modal
-          className='modal_p'
+          className="modal_p"
           visible={this.state.showmodalp}
           title="Provide Liquidity"
           onCancel={this.handleCancelP}
           footer={[]}
         >
           <div>
-            <Tabs className='modalptabnav' defaultActiveKey="1" centered>
+            <Tabs className="modalptabnav" defaultActiveKey="1" centered>
               <TabPane tab="DEPOSIT" key="1">
                 <ModalPDeposit />
               </TabPane>
@@ -167,14 +160,14 @@ class App extends Component {
 
         {/* Lock Modal Market*/}
         <Modal
-          className='modal_market'
+          className="modal_market"
           visible={this.state.showmodalmarket}
           title=""
           onCancel={this.handleCancelMarket}
           footer={[]}
         >
           <div>
-            <Tabs className='modalmarkettabnav' defaultActiveKey="1" centered>
+            <Tabs className="modalmarkettabnav" defaultActiveKey="1" centered>
               <TabPane tab="SUPPLY" key="1">
                 <ModalMarketSupply />
               </TabPane>
@@ -191,8 +184,8 @@ class App extends Component {
           </div>
         </Modal>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

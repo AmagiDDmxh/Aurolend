@@ -1,13 +1,8 @@
+import React, { useState } from 'react'
+import './index.css'
 
-import React, { useState } from 'react';
-import './index.css';
-
-function ModalMarketRepay(){
-    return (
-        <div className=''>
-            
-        </div>
-    );
+function ModalMarketRepay() {
+  return <div className=""></div>
 }
 
-export default ModalMarketRepay;
+export default ModalMarketRepay
